@@ -1,30 +1,199 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adios Gluten</title>
+    <title>Oferta Especial - Adios Gluten</title>
     <link rel="stylesheet" href="23y.css">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        /* Estilização do container de vídeo */
-        .video-container {
-            max-width: 662px;
-            margin: auto;
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
+        html {
+            scroll-behavior: smooth;
         }
 
-        /* Box vermelho sobre o vídeo (MENOR) */
+        body {
+            background-color: #e5e5e5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- CSS do Popup de Saída (Exit Intent) --- */
+        .exit-popup-overlay {
+            display: none; /* Oculto por padrão */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .exit-popup-content {
+            background-color: #fff;
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            border: 4px solid #cf0101;
+            animation: popup-bounce 0.4s ease-out;
+        }
+
+        .exit-close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        .exit-close-btn:hover { color: #000; }
+
+        .exit-headline {
+            color: #cf0101;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .exit-subheadline {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        @keyframes popup-bounce {
+            0% { transform: scale(0.7); opacity: 0; }
+            80% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Fim do CSS do Popup --- */
+
+        /* Barra de Progresso no Topo */
+        .progress-bar-container {
+            background-color: #fff;
+            padding: 15px 0;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-steps {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #aaa;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step.active {
+            color: #cf0101;
+        }
+        
+        .step.completed {
+            color: #28a745;
+        }
+
+        .step-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid currentColor;
+            font-size: 12px;
+        }
+        
+        .step.completed .step-circle {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        /* Container Principal */
+        .main-card {
+            background-color: #fff;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .alert-headline {
+            color: #cf0101;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .sub-headline {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .skip-link {
+            color: #007bff;
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1em;
+            display: inline-block;
+            margin-bottom: 10px;
+            transition: color 0.2s;
+        }
+
+        .skip-link:hover {
+            color: #0056b3;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 20px auto;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background: #000;
+        }
+
         .overlay {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 300px; /* Reduzi para um tamanho menor */
-            height: 150px; /* Ajustei para melhor proporção */
-            background: rgba(185, 2, 2, 0.9);
+            width: 280px;
+            height: 140px;
+            background: rgba(200, 0, 0, 0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -33,77 +202,176 @@
             font-size: 18px;
             font-weight: bold;
             text-align: center;
-            border-radius: 10px;
-            border: 2px solid white;
+            border-radius: 12px;
+            border: 3px solid white;
             cursor: pointer;
             animation: pulse 1.5s infinite alternate;
-            transform: translate(-50%, -50%); /* Centraliza o box */
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
-        /* Ícone de som */
         .overlay img {
-            width: 40px;
-            height: 40px;
-            margin: 5px 0;
+            width: 36px;
+            height: 36px;
+            margin: 8px 0;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
         }
 
-        /* Efeito de pulsação */
         @keyframes pulse {
-            from {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-            to {
-                transform: translate(-50%, -50%) scale(1.1);
-                opacity: 0.8;
-            }
+            from { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(207, 1, 1, 0.7); }
+            to { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 10px rgba(207, 1, 1, 0); }
+        }
+        
+        .viewer-count {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #cf0101;
+            border-radius: 50%;
+            display: inline-block;
+            animation: live-pulse 1s infinite;
+        }
+        
+        @keyframes live-pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .progress-steps span { display: none; }
+            .step-circle { margin: 0 auto; }
+            .main-card { margin: 10px; padding: 20px 10px; }
+            .alert-headline { font-size: 22px; }
         }
     </style>
 </head>
-<body style="background-color:#f6f6f6; text-align: center;">
-    
-    <!-- Alerta Superior -->
-    <div id="top-stop" style="font-size: 17px; background-color: #cf0101; color: white; font-weight: bold; padding: 10px 0;">
-        ¡No cierres ni actualices esta página! <br> [TU COMPRA PODRÍA PERDERSE]
-    </div>
-    
-    <!-- Cabeçalho -->
-    <div style="margin: 20px auto 10px;">
-        <img width="300" height="126" src="atention.png" alt="">
-    </div>
-    
-    <!-- Vídeo Player -->
-    <div class="video-container">
-        <video id="video" autoplay muted playsinline style="width: 100%;"></video>
+<body>
 
-        <!-- Box vermelho menor -->
-        <div class="overlay" id="overlay" onclick="restartVideo()">
-            <span>Tu vídeo ya ha comenzado</span>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Speaker_Icon.svg" alt="Som Desativado">
-            <span>Haga clic para escuchar</span>
+    <!-- Popup de Intenção de Saída -->
+    <div id="exitPopup" class="exit-popup-overlay">
+        <div class="exit-popup-content">
+            <span class="exit-close-btn" onclick="closeExitPopup()">&times;</span>
+            <div class="exit-headline">¡NO PIERDAS ESTA OPORTUNIDAD!</div>
+            <div class="exit-subheadline">Esta oferta especial desaparecerá si sales de esta página. Agrégalo a tu pedido ahora.</div>
+            
+            <!-- Widget Hotmart DENTRO do Popup -->
+            <div id="hotmart-sales-funnel-popup"></div>
+            
+            <p style="font-size: 12px; color: #777; margin-top: 15px;">Haga clic en el botón de arriba para confirmar.</p>
         </div>
     </div>
-    
-    <!-- Contador de Visitantes -->
-    <h4 style="margin:0px;"><span style="color:#C00; font-size:1.1em;" id="num-persons"></span> la gente está mirando</h4>
-    
-<!-- HOTMART - Sales Funnel Widget -->
-<!--- sales funnel container --->
-<div id="hotmart-sales-funnel"></div>
 
-<!--- script load and setup --->
-<script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
-<script>
-checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel')
-</script>
-<!-- HOTMART - Sales Funnel Widget -->
-    
-    <!-- Rodapé -->
-    <div id="footer" style="display:none; background-color:#F6F6F6;">
-        <p style="font-size: 10px;">Condiciones de uso / Política de privacidad</p>
+    <!-- Barra de Progresso -->
+    <div class="progress-bar-container">
+        <div class="progress-steps">
+            <div class="step completed">
+                <div class="step-circle">✔</div>
+                <span>Paso 1: Compra Aprobada</span>
+            </div>
+            <div class="step active">
+                <div class="step-circle">2</div>
+                <span>Paso 2: Personalizar Pedido</span>
+            </div>
+            <div class="step">
+                <div class="step-circle">3</div>
+                <span>Paso 3: Acceso Final</span>
+            </div>
+        </div>
     </div>
-    
+
+    <div class="main-card">
+        <div class="alert-headline">
+            ¡ESPERA! Tu Compra Casi Está Finalizada...
+        </div>
+
+        <div class="sub-headline">
+            <a href="#hotmart-sales-funnel" class="skip-link">
+                &darr; Si lo desea, puede continuar bajando ahora &darr;
+            </a>
+        </div>
+
+        <div class="video-container">
+            <video id="video" autoplay muted playsinline style="width: 100%; display: block;"></video>
+            <div class="overlay" id="overlay" onclick="restartVideo()">
+                <span>Tu vídeo ya ha comenzado</span>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Speaker_Icon.svg" alt="Activar Sonido">
+                <span>Haga clic para escuchar</span>
+            </div>
+        </div>
+
+        <div class="viewer-count">
+            <span class="pulse-dot"></span>
+            <span style="font-weight: bold; color: #333;" id="num-persons"></span> 
+            personas están viendo esta oferta ahora.
+        </div>
+        
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+        <!-- Widget Hotmart Principal (Fim da página) -->
+        <div id="hotmart-sales-funnel" style="scroll-margin-top: 20px;"></div>
+    </div>
+
+    <div id="footer" style="text-align: center; padding-bottom: 20px; color: #999;">
+        <p style="font-size: 11px;">Copyright © Adios Gluten. Todos los derechos reservados.<br>Condiciones de uso / Política de privacidad</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>
     <script>
+        // Inicializa o Widget Principal
+        if (typeof checkoutElements !== 'undefined') {
+            checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel');
+            
+            // Inicializa TAMBÉM o Widget do Popup
+            try {
+                checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel-popup');
+            } catch(e) {
+                console.log("Erro ao carregar widget do popup (pode ser duplicado):", e);
+            }
+        }
+
+        // --- Lógica do Popup de Intenção de Saída ---
+        var exitPopup = document.getElementById('exitPopup');
+
+        function showPopup() {
+            // Removida a verificação única (popupTriggered) para abrir sempre
+            exitPopup.style.display = 'flex';
+        }
+
+        function closeExitPopup() {
+            exitPopup.style.display = 'none';
+        }
+
+        // 1. Detectar saída do mouse (Desktop)
+        document.addEventListener('mouseleave', function(e) {
+            if (e.clientY < 0) { // Mouse saiu pelo topo
+                showPopup();
+            }
+        });
+
+        // 2. Detectar retorno ao site (Mobile - aba inativa/ativa)
+        // Lógica: Se o usuário saiu da aba e voltou, mostramos o popup
+        document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === 'visible') {
+                // Pequeno delay para garantir que o usuário está focado
+                setTimeout(function() {
+                     showPopup(); // Abre sempre ao retornar
+                }, 500);
+            }
+        });
+
+        // Configuração do Vídeo
         var video = document.getElementById('video');
         var overlay = document.getElementById('overlay');
         var videoSrc = "https://cdn.jsdelivr.net/gh/brengrassy/adios3@f37b1edd755ed644c4388ab468828cd3fd953b32/Adios-Gluten.m3u8";
@@ -112,12 +380,20 @@ checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel')
             var hls = new Hls();
             hls.loadSource(videoSrc);
             hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play().catch(function(error) {
+                    console.log("Autoplay bloqueado");
+                });
+            });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = videoSrc;
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
         }
         
         function restartVideo() {
-            video.currentTime = 0; // Reinicia o vídeo do começo
+            video.currentTime = 0;
             video.muted = false;
             video.play();
             overlay.style.display = "none";
@@ -127,11 +403,15 @@ checkoutElements.init('salesFunnel').mount('#hotmart-sales-funnel')
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
         
-        document.getElementById("num-persons").innerText = getRandomInt(2127, 4579);
-        setInterval(function() {
-            var current = parseInt(document.getElementById("num-persons").innerText);
-            document.getElementById("num-persons").innerText = current + 1;
-        }, 1111);
+        var numElement = document.getElementById("num-persons");
+        if(numElement) {
+            numElement.innerText = getRandomInt(890, 1500);
+            setInterval(function() {
+                var current = parseInt(numElement.innerText);
+                var change = Math.random() > 0.5 ? 1 : -1;
+                numElement.innerText = current + change;
+            }, 2500);
+        }
     </script>
 </body>
 </html>
